@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -99,17 +100,20 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <RadioButton mnemonicParsing="false" text="Male">
+                        <RadioButton fx:id="rbMale" mnemonicParsing="false" text="Male">
+                           <HBox.margin>
+                              <Insets left="15.0" right="15.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="tgG" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="rbFemale" mnemonicParsing="false" text="Female" toggleGroup="$tgG">
                            <HBox.margin>
                               <Insets left="15.0" right="15.0" />
                            </HBox.margin>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="Female">
-                           <HBox.margin>
-                              <Insets left="15.0" right="15.0" />
-                           </HBox.margin>
-                        </RadioButton>
-                        <RadioButton mnemonicParsing="false" text="Other">
+                        <RadioButton fx:id="rbOther" mnemonicParsing="false" text="Other" toggleGroup="$tgG">
                            <HBox.margin>
                               <Insets left="15.0" right="15.0" />
                            </HBox.margin>
@@ -128,7 +132,7 @@
                         <Insets left="70.0" top="40.0" />
                      </VBox.margin>
                   </Label>
-                  <ChoiceBox fx:id="careers" prefWidth="150.0">
+                  <ChoiceBox fx:id="prefB" prefWidth="150.0">
                      <VBox.margin>
                         <Insets left="70.0" top="15.0" />
                      </VBox.margin>
@@ -137,17 +141,17 @@
             </VBox>
             <VBox prefHeight="151.0" prefWidth="328.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <children>
-                  <CheckBox mnemonicParsing="false" text="Software Engineering">
+                  <CheckBox fx:id="cbSE" mnemonicParsing="false" text="Software Engineering">
                      <VBox.margin>
                         <Insets left="70.0" />
                      </VBox.margin>
                   </CheckBox>
-                  <CheckBox mnemonicParsing="false" text="Telematic Engieeniring">
+                  <CheckBox fx:id="cbTE" mnemonicParsing="false" text="Telematic Engieeniring">
                      <VBox.margin>
                         <Insets left="70.0" top="15.0" />
                      </VBox.margin>
                   </CheckBox>
-                  <CheckBox mnemonicParsing="false" text="Industrial Engineering">
+                  <CheckBox fx:id="cbIE" mnemonicParsing="false" text="Industrial Engineering">
                      <VBox.margin>
                         <Insets left="70.0" top="15.0" />
                      </VBox.margin>
@@ -164,7 +168,7 @@
                         <Insets left="70.0" top="40.0" />
                      </VBox.margin>
                   </Label>
-                  <DatePicker>
+                  <DatePicker fx:id="txtBDay">
                      <VBox.margin>
                         <Insets left="70.0" top="15.0" />
                      </VBox.margin>
@@ -173,7 +177,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="257.0" text="Create account">
+                  <Button mnemonicParsing="false" onAction="#validateInfo" prefHeight="51.0" prefWidth="257.0" text="Create account">
                      <font>
                         <Font size="18.0" />
                      </font>

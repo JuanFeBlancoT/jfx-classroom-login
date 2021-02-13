@@ -3,6 +3,7 @@ package ui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -15,8 +16,11 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -35,7 +39,13 @@ public class ClassroomGUI{
 	
 	//register attributes
 	@FXML
-    private ChoiceBox<String> careers;
+	private TextField txtUserNameReg;
+
+	@FXML
+    private TextField txtPasswordReg;
+	
+	@FXML
+    private ChoiceBox<String> prefB;
 	
 	@FXML
 	private TextField urlPic;
@@ -43,7 +53,26 @@ public class ClassroomGUI{
 	@FXML
     private Button btnFileC;
 	
-	private ListView listView;
+	@FXML
+	private RadioButton rbMale;
+
+	@FXML
+	private RadioButton rbFemale;
+
+	@FXML
+	private RadioButton rbOther;
+	
+	@FXML
+	private CheckBox cbSE;
+
+	@FXML
+	private CheckBox cbTE;
+
+	@FXML
+	private CheckBox cbIE;
+	
+	@FXML
+    private DatePicker txtBDay;
 	
 	//others
 	@FXML
@@ -79,7 +108,7 @@ public class ClassroomGUI{
 		principalPane.getChildren().clear();
 		principalPane.getChildren().setAll(showRegisterPane);
 		
-		careers.getItems().addAll("Chrome","FireFox","Explorer");
+		prefB.getItems().addAll("Chrome","FireFox","Explorer");
 	 }
 	 
 	 @FXML
@@ -132,7 +161,59 @@ public class ClassroomGUI{
 	    	if(selectedFile != null) {
 	    		urlPic.setText(selectedFile.getAbsolutePath());
 	    	} else {
-	    		System.out.println("WATAFAK?!");
+	    		
 	    	}
-	    }
+	 }
+	 
+	 @FXML
+	 public void validateInfo(ActionEvent event) {
+		 
+		 boolean validInformaion=true;
+		 
+		 String userName = txtUserNameReg.getText();
+		 String password = txtPasswordReg.getText();
+		 String url = urlPic.getText();	
+		 String prefBrow = prefB.getValue();
+		 String genreOption = "";
+		 String dateBday= txtBDay.toString();
+		 String[] careers = new String[3];
+		 
+		 if(rbMale.isSelected()) {
+			 genreOption = "Male";
+		 } else if(rbFemale.isSelected()) {
+			 genreOption = "Female";
+		 }else if(rbOther.isSelected()) {
+			 genreOption = "Other";
+		 }
+		 		
+		 //checkBox
+		 if(cbIE.isSelected()) {
+			 careers[0]="Industrial Engineering";
+		 }
+		 if(cbSE.isSelected()) {
+			 careers[1]="Software Engineering";
+		 }
+		 if(cbTE.isSelected()) {
+			 careers[2]="Telematic Engineering";
+		 }
+		 
+		 //validation
+		 if(userName.equals("") || password.equals("") || url.equals("") || prefBrow.equals("") || genreOption.equals("") 
+				 || dateBday.equals("") || careers[0]==null && careers[1]==null && careers[2]==null) {
+			 validInformaion=false;
+			 
+		 }
+		 
+		 if(validInformaion) {
+			 
+		 }else {
+			 Alert alert = new Alert(AlertType.WARNING);
+			 alert.setTitle("Register Error");
+			 alert.setHeaderText("Register Error");
+			 alert.setContentText("There are empty fields. Please check them");
+
+			 alert.showAndWait();
+		 }
+		 
+	 }//end validateInfo
 }
