@@ -12,7 +12,7 @@ public class UserAccount {
 	private String[] career;
 	public Image picture;
 
-	public UserAccount(String username, String password, String genre, Image picture, String favBrowser, String brithday, String[] career) {
+	public UserAccount(String username, String password, String genre, Image picture, String favBrowser, String birthday, String[] career) {
 		this.username = username;
 		this.passwrod = password;
 		this.genre = genre;
@@ -66,8 +66,25 @@ public class UserAccount {
 		this.birthday = birthday;
 	}
 
-	public String[] getCareer() {
-		return career;
+	public String getCareer() {
+		String careerString = "";
+		careerString = getBDToString();
+		return careerString;
+	}
+
+	private String getBDToString() {
+		String CL = "";
+		if(career[0]!=null) {
+			CL+=career[0];
+		}
+		if(career[1]!=null) {
+			CL+=", " + career[1];
+		}
+		if(career[2]!=null) {
+			CL+=", " + career[2];
+		}
+		return CL;
+		
 	}
 
 	public void setCareer(String[] career) {

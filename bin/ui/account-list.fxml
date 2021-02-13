@@ -18,7 +18,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Username">
+                  <Label fx:id="showUser" text="Username">
                      <HBox.margin>
                         <Insets right="50.0" />
                      </HBox.margin>
@@ -41,13 +41,13 @@
                   </Button>
                </children>
             </HBox>
-            <TableView prefHeight="716.0" prefWidth="246.0">
+            <TableView fx:id="tbvUseras" prefHeight="716.0" prefWidth="246.0">
               <columns>
-                <TableColumn prefWidth="305.3333842754364" text="Username" />
-                  <TableColumn prefWidth="265.6666564941406" text="Gender" />
-                  <TableColumn prefWidth="300.66668701171875" text="Career" />
-                  <TableColumn prefWidth="300.0" text="Birthday" />
-                  <TableColumn prefWidth="264.6666259765625" text="Browser" />
+                <TableColumn fx:id="colUser" prefWidth="305.3333842754364" text="Username" />
+                  <TableColumn fx:id="colGenre" prefWidth="265.6666564941406" text="Gender" />
+                  <TableColumn fx:id="colCareer" prefWidth="300.66668701171875" text="Career" />
+                  <TableColumn fx:id="colBirth" prefWidth="300.0" text="Birthday" />
+                  <TableColumn fx:id="colBrow" prefWidth="264.6666259765625" text="Browser" />
               </columns>
             </TableView>
          </children>

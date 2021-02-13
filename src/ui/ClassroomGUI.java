@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.jws.soap.SOAPBinding.Use;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,14 +23,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import model.Classroom;
+import model.UserAccount;
 
 public class ClassroomGUI{
 
@@ -46,6 +53,28 @@ public class ClassroomGUI{
 	//account list
 	@FXML
     private ImageView userPic;
+	
+	@FXML
+	private TableColumn<UserAccount, String> colUser;
+
+	@FXML
+	private TableColumn<UserAccount, String> colGenre;
+
+	@FXML
+	private TableColumn<UserAccount, String> colCareer;
+
+	@FXML
+	private TableColumn<UserAccount, String> colBirth;
+	
+	@FXML
+	private TableColumn<UserAccount, String> colBrow;
+	
+	@FXML
+	private TableView<UserAccount> tbvUseras;
+	
+	@FXML
+	private Label showUser;
+
 	
 	//register attributes
 	@FXML
@@ -93,18 +122,47 @@ public class ClassroomGUI{
 		this.classroom = classroom;
 	}
 	
+	@FXML
+	public void verifyUser() throws IOException {
+		boolean found = false;
+		boolean filled = validateLogin(txtUsernameLogin.getText(), txtPasswordLogin.getText());
+		if(filled) {
+			for (int i = 0; i < classroom.getUserList().size() && classroom.getUserList().get(i)!=null && !found; i++) {
+				if(classroom.getUserList().get(i).getUsername().equals(txtUsernameLogin.getText())) {
+					int index=i;
+					if(classroom.getUserList().get(index).getPasswrod().equals(txtPasswordLogin.getText())) {
+						loadAccountW(null);
+						showUser.setText(txtUsernameLogin.getText());
+					}else {
+						Alert alert = new Alert(AlertType.WARNING);
+						 alert.setTitle("Login Error");
+						 alert.setHeaderText("Login Error");
+						 alert.setContentText("Username and password does not match");
+
+						 alert.showAndWait();
+					}
+				}else {
+					Alert alert = new Alert(AlertType.WARNING);
+					 alert.setTitle("Login Error");
+					 alert.setHeaderText("Login Error");
+					 alert.setContentText("Yhe username or password are incorrect");
+
+					 alert.showAndWait();
+				}
+			}
+		}
+	}	
+	
 	 @FXML
 	 public void loadAccountW(ActionEvent event) throws IOException {
-		 
+		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("account-list.fxml"));
 		fxmlLoader.setController(this); 	
 			
 		Parent showAccountPane = fxmlLoader.load();
 		principalPane.getChildren().clear();
 		principalPane.getChildren().setAll(showAccountPane);
-		
-		validateLogin(txtUsernameLogin.getText(), txtPasswordLogin.getText());
-		
+		initializeTable();
 		loadImage(txtUsernameLogin.getText());
 	 }
 
@@ -151,8 +209,7 @@ public class ClassroomGUI{
 		 
 		 if(nameTxt.equals("") || passwrodTxt.equals("")){
 			 canCreateUser = false;
-		 }else {		 
-			 canCreateUser = checkUserIsNotRepeated(nameTxt);
+			 showAlerts();
 		 }
 		 
 		return canCreateUser;
@@ -167,18 +224,6 @@ public class ClassroomGUI{
 		 alert.showAndWait();
 	 }
 	 
-
-	 /*@FXML
-	 public void selectPhoto(ActionEvent event) {
-	    	FileChooser photoC = new FileChooser();
-	    	File selectedFile = photoC.showOpenDialog(null);
-	    	
-	    	if(selectedFile != null) {
-	    		urlPic.setText(selectedFile.getAbsolutePath());
-	    	} else {
-	    		
-	    	}
-	 }*/
 	 
 	 public void selectPhoto(ActionEvent event) throws FileNotFoundException {
 		 FileChooser photoC = new FileChooser();
@@ -197,7 +242,7 @@ public class ClassroomGUI{
 		 String url = urlPic.getText();	
 		 String prefBrow = prefB.getValue();
 		 String genreOption = "";
-		 String dateBday= txtBDay.toString();
+		 String dateBday= txtBDay.getValue().toString();
 		 String[] careers = new String[3];
 		 
 		 if(rbMale.isSelected()) {
@@ -230,7 +275,15 @@ public class ClassroomGUI{
 			 if(!repeated) {
 				 //user is created
 				 classroom.createUser(userName, password, genreOption, actualPicture, prefBrow, dateBday, careers);
+				 Alert alert = new Alert(AlertType.CONFIRMATION);
+				 alert.setTitle("Success");
+				 alert.setHeaderText("User created successfully");
+				 alert.setContentText("User created correctly");
+
+				 alert.showAndWait();
+				 
 				 loadLoginW(null);
+				 
 			 }else {
 				 Alert alert = new Alert(AlertType.WARNING);
 				 alert.setTitle("Register Error");
@@ -261,4 +314,17 @@ public class ClassroomGUI{
 		}
 		 return found;
 	 }//end checkUserIsNotRepeated
+	 
+	 public void initializeTable() {
+		 ObservableList<UserAccount> accountArray = FXCollections.observableArrayList(classroom.getUserList());
+		 
+		 colUser.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("username"));
+		 colGenre.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("genre"));
+		 colCareer.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("career"));
+		 colBirth.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("birthday"));
+		 colBrow.setCellValueFactory(new PropertyValueFactory<UserAccount,String>("favBrowser"));
+		 
+		 tbvUseras.setItems(accountArray);	 
+	 }
+	 
 }
