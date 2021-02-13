@@ -1,26 +1,30 @@
 package model;
 
+import javafx.scene.image.Image;
+
 public class UserAccount {
 	
 	private String username;
 	private String passwrod;
 	private String genre;
-	private String urlPhoto;
 	private String favBrowser;
 	private String birthday;
 	private String[] career;
-	
-	public UserAccount(String username, String password, String genre, String urlPhoto, String favBrowser, String brithday, String[] career) {
+	public Image picture;
+
+	public UserAccount(String username, String password, String genre, Image picture, String favBrowser, String brithday, String[] career) {
 		this.username = username;
 		this.passwrod = password;
 		this.genre = genre;
-		this.urlPhoto = urlPhoto;
 		this.favBrowser = favBrowser;
 		this.birthday = birthday;
 		this.career = career;
+		this.picture = picture;
 	}
 
-	
+	public Image getPicture() {
+		return picture;
+	}
 	
 	public String getUsername() {
 		return username;
@@ -44,14 +48,6 @@ public class UserAccount {
 
 	public void setGenre(String genre) {
 		this.genre = genre;
-	}
-
-	public String getUrlPhoto() {
-		return urlPhoto;
-	}
-
-	public void setUrlPhoto(String urlPhoto) {
-		this.urlPhoto = urlPhoto;
 	}
 
 	public String getFavBrowser() {

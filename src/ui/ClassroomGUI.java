@@ -1,6 +1,8 @@
 package ui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import model.Classroom;
@@ -30,12 +34,18 @@ public class ClassroomGUI{
 
 	private Classroom classroom;
 	
+	private Image actualPicture;
+	
 	//login attributes
 	@FXML
 	private TextField txtUsernameLogin;
 
 	@FXML
 	private TextField txtPasswordLogin;
+	
+	//account list
+	@FXML
+    private ImageView userPic;
 	
 	//register attributes
 	@FXML
@@ -81,7 +91,6 @@ public class ClassroomGUI{
 	
 	public ClassroomGUI(Classroom classroom) {
 		this.classroom = classroom;
-		System.out.println(classroom.getUserList().size());
 	}
 	
 	 @FXML
@@ -95,9 +104,22 @@ public class ClassroomGUI{
 		principalPane.getChildren().setAll(showAccountPane);
 		
 		validateLogin(txtUsernameLogin.getText(), txtPasswordLogin.getText());
+		
+		loadImage(txtUsernameLogin.getText());
 	 }
 
-	 @FXML
+	 private void loadImage(String name) {
+		boolean found = false;
+		for (int i = 0; i < classroom.getUserList().size() && !found && classroom.getUserList().get(i)!=null ; i++) {
+			if(classroom.getUserList().get(i).getUsername().equals(name)) {
+				userPic.setImage(classroom.getUserList().get(i).getPicture());
+				found=true;
+			}
+			
+		}
+	}
+
+	@FXML
 	 public void loadRegisterW(ActionEvent event) throws IOException {
 		 
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("register.fxml"));
@@ -146,7 +168,7 @@ public class ClassroomGUI{
 	 }
 	 
 
-	 @FXML
+	 /*@FXML
 	 public void selectPhoto(ActionEvent event) {
 	    	FileChooser photoC = new FileChooser();
 	    	File selectedFile = photoC.showOpenDialog(null);
@@ -156,6 +178,13 @@ public class ClassroomGUI{
 	    	} else {
 	    		
 	    	}
+	 }*/
+	 
+	 public void selectPhoto(ActionEvent event) throws FileNotFoundException {
+		 FileChooser photoC = new FileChooser();
+		 urlPic.setText(photoC.showOpenDialog(null).getAbsolutePath());
+	    	
+		 actualPicture = new Image(new FileInputStream(urlPic.getText()));
 	 }
 	 
 	 @FXML
@@ -194,14 +223,13 @@ public class ClassroomGUI{
 		 if(userName.equals("") || password.equals("") || url.equals("") || prefBrow.equals("") || genreOption.equals("") 
 				 || dateBday.equals("") || careers[0]==null && careers[1]==null && careers[2]==null) {
 			 validInformaion=false;
-			 
 		 }
 		 
 		 if(validInformaion) {
 			 boolean repeated = checkUserIsNotRepeated(userName);
 			 if(!repeated) {
 				 //user is created
-				 classroom.createUser(userName, password, genreOption, url, prefBrow, dateBday, careers);
+				 classroom.createUser(userName, password, genreOption, actualPicture, prefBrow, dateBday, careers);
 				 loadLoginW(null);
 			 }else {
 				 Alert alert = new Alert(AlertType.WARNING);
@@ -228,7 +256,6 @@ public class ClassroomGUI{
 				for (int i = 0; i < classroom.getUserList().size(); i++) {
 					if(nameTxt.equals(classroom.getUserList().get(i).getUsername())) {
 						found = true;
-						System.out.println("ERROR LOGIN");
 					}
 				}
 		}
