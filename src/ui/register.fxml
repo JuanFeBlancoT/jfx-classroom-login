@@ -46,7 +46,7 @@
                         <Insets left="70.0" top="30.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField>
+                  <TextField fx:id="txtUserNameReg">
                      <VBox.margin>
                         <Insets left="70.0" top="15.0" />
                      </VBox.margin>
@@ -63,7 +63,7 @@
                         <Insets left="70.0" top="30.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField>
+                  <TextField fx:id="txtPasswordReg">
                      <VBox.margin>
                         <Insets left="70.0" top="15.0" />
                      </VBox.margin>
@@ -80,7 +80,7 @@
                         <Insets left="70.0" top="30.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField prefWidth="228.0">
+                  <TextField fx:id="urlPic" prefWidth="228.0">
                      <VBox.margin>
                         <Insets left="70.0" top="15.0" />
                      </VBox.margin>
@@ -128,26 +128,18 @@
                         <Insets left="70.0" top="40.0" />
                      </VBox.margin>
                   </Label>
-                  <ChoiceBox prefWidth="150.0">
+                  <ChoiceBox fx:id="careers" prefWidth="150.0">
                      <VBox.margin>
                         <Insets left="70.0" top="15.0" />
                      </VBox.margin>
                   </ChoiceBox>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+            <VBox prefHeight="151.0" prefWidth="328.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <children>
-                  <Label text="Career:">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="70.0" top="100.0" />
-                     </VBox.margin>
-                  </Label>
                   <CheckBox mnemonicParsing="false" text="Software Engineering">
                      <VBox.margin>
-                        <Insets left="70.0" top="15.0" />
+                        <Insets left="70.0" />
                      </VBox.margin>
                   </CheckBox>
                   <CheckBox mnemonicParsing="false" text="Telematic Engieeniring">
@@ -162,7 +154,7 @@
                   </CheckBox>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                <children>
                   <Label text="Birthday:">
                      <font>
@@ -208,6 +200,11 @@
                   </HBox>
                </children>
             </VBox>
+            <Label text="Career:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
       <VBox layoutX="-2.0" layoutY="-2.0" prefHeight="195.0" prefWidth="985.0">
@@ -230,7 +227,7 @@
             </Label>
          </children>
       </VBox>
-      <Button layoutX="1013.0" layoutY="261.0" mnemonicParsing="false" prefWidth="90.0" text="Browse">
+      <Button fx:id="btnFileC" layoutX="1013.0" layoutY="261.0" mnemonicParsing="false" onAction="#selectPhoto" prefWidth="90.0" text="Browse">
          <font>
             <Font name="Montserrat Regular" size="16.0" />
          </font>
