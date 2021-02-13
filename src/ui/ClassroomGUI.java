@@ -92,8 +92,7 @@ public class ClassroomGUI{
 			
 		Parent showAccountPane = fxmlLoader.load();
 		principalPane.getChildren().clear();
-		//principalPane.getChildren().setAll(showAccountPane);
-		principalPane.setClip(showAccountPane);
+		principalPane.getChildren().setAll(showAccountPane);
 		
 		validateLogin(txtUsernameLogin.getText(), txtPasswordLogin.getText());
 	 }
@@ -130,16 +129,10 @@ public class ClassroomGUI{
 		 
 		 if(nameTxt.equals("") || passwrodTxt.equals("")){
 			 canCreateUser = false;
-		 }		 
-		 
-		 if(!(classroom.getUserList().size()==0) && canCreateUser) {
-			for (int i = 0; i < classroom.getUserList().size(); i++) {
-				if(nameTxt.equals(classroom.getUserList().get(i).getUsername())) {
-					canCreateUser = false;
-					System.out.println("ERROR LOGIN");
-				}
-			}
+		 }else {		 
+			 canCreateUser = checkUserIsNotRepeated(nameTxt);
 		 }
+		 
 		return canCreateUser;
 	 }
 	 
@@ -166,7 +159,7 @@ public class ClassroomGUI{
 	 }
 	 
 	 @FXML
-	 public void validateInfo(ActionEvent event) {
+	 public void validateInfo(ActionEvent event) throws IOException {
 		 
 		 boolean validInformaion=true;
 		 
@@ -205,7 +198,19 @@ public class ClassroomGUI{
 		 }
 		 
 		 if(validInformaion) {
-			 
+			 boolean repeated = checkUserIsNotRepeated(userName);
+			 if(!repeated) {
+				 //user is created
+				 classroom.createUser(userName, password, genreOption, url, prefBrow, dateBday, careers);
+				 loadLoginW(null);
+			 }else {
+				 Alert alert = new Alert(AlertType.WARNING);
+				 alert.setTitle("Register Error");
+				 alert.setHeaderText("Register Error");
+				 alert.setContentText("This username is taken");
+
+				 alert.showAndWait();
+			 }
 		 }else {
 			 Alert alert = new Alert(AlertType.WARNING);
 			 alert.setTitle("Register Error");
@@ -216,4 +221,17 @@ public class ClassroomGUI{
 		 }
 		 
 	 }//end validateInfo
+	 
+	 public boolean checkUserIsNotRepeated(String nameTxt) {
+		 boolean found=false;
+		 if(!(classroom.getUserList().size()==0) && !found) {
+				for (int i = 0; i < classroom.getUserList().size(); i++) {
+					if(nameTxt.equals(classroom.getUserList().get(i).getUsername())) {
+						found = true;
+						System.out.println("ERROR LOGIN");
+					}
+				}
+		}
+		 return found;
+	 }//end checkUserIsNotRepeated
 }

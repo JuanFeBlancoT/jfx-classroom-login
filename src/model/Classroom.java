@@ -10,8 +10,8 @@ public class Classroom {
 		userList = new ArrayList<>();
 	}
 	
-	public void createUser() {
-		
+	public void createUser(String username, String password, String genre, String urlPhoto, String favBrowser, String brithday, String[] career) {
+		userList.add(new UserAccount(username, password, genre, urlPhoto, favBrowser, brithday, career));
 	}
 
 	public ArrayList<UserAccount> getUserList() {

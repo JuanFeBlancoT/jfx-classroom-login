@@ -10,7 +10,7 @@ public class UserAccount {
 	private String birthday;
 	private String[] career;
 	
-	public UserAccount(String username, String password, String ganere, String urlPhoto, String favBrowser, String brithday, String[] career) {
+	public UserAccount(String username, String password, String genre, String urlPhoto, String favBrowser, String brithday, String[] career) {
 		this.username = username;
 		this.passwrod = password;
 		this.genre = genre;
