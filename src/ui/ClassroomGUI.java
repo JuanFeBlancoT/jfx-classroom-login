@@ -90,9 +90,6 @@ public class ClassroomGUI{
 	private TextField urlPic;
 	
 	@FXML
-    private Button btnFileC;
-	
-	@FXML
 	private RadioButton rbMale;
 
 	@FXML
